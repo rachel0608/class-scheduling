@@ -1,4 +1,10 @@
-// Process input files and store data in ScheduleInput object
+// Process constraint and student pref files and store data in ScheduleInput object
+
+/* Note:
+ * - All arrays have a 0 index element that is not used for easier access to elements by ID if needed
+ * - Rooms and Classes are sorted in place by size and frequency, respectively. We don't need to 
+ * access elements by ID yet, if we do, we can modify by creating a copy of the array and sorting that
+ */
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
