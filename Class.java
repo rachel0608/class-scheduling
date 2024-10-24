@@ -55,6 +55,10 @@ public class Class {
         this.frequency = frequency;
     }
 
+    public boolean isSameTeacher(Class other) {
+        return this.teacherId == other.teacherId;
+    }
+
     public String toString() {
         return "Class: " + classId + ", Teacher: " + teacherId + ", Room: " + 
         roomId + ", Timeslot: " + timeslot + ", Frequency: " + frequency;
