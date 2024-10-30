@@ -85,6 +85,7 @@ public class ProcessInput {
                 System.out.println(prefData.length);
                 System.exit(1);
             }
+
             for (int j = 0; j < prefData.length; j++) {
                 preferences[j] = Integer.parseInt(prefData[j]);
                 input.getClasses()[preferences[j]].setFrequency(input.getClasses()[preferences[j]].getFrequency() + 1); // Increment class frequency
@@ -114,10 +115,12 @@ public class ProcessInput {
             for (int i = 1; i < input.getRooms().length; i++) {
                 System.out.println("ID: " + input.getRooms()[i].getRoomId() + " - Size: " + input.getRooms()[i].getSize());
             }
+            
             System.out.println("\nNumber of classes: " + (input.getClasses().length-1)); // Subtract 1 to exclude the 0th element
             for (int i = 1; i < input.getClasses().length; i++) {
                 System.out.println(input.getClasses()[i]);
             }
+
             System.out.println("\nNumber of students: " + input.getNumStudents());
             for (int i = 1; i < input.getStudents().length; i++) {
                 System.out.println(input.getStudents()[i]);
