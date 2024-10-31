@@ -2,7 +2,7 @@ import java.io.FileNotFoundException;
 
 public class ScheduleClass {
 
-    public static void scheduleClasses(ScheduleInput input) {
+    public static Class[][] scheduleClasses(ScheduleInput input) {
         int numRooms = input.getRooms().length - 1;
         int numTimeSlots = input.getNumTimeslots();
         Class[][] schedule = new Class[numRooms][numTimeSlots];
@@ -37,6 +37,7 @@ public class ScheduleClass {
 
 
         printSchedule(schedule);
+        return schedule;
     }
 
     // Checks if there’s a conflict between two classes based on teacher
@@ -59,7 +60,7 @@ public class ScheduleClass {
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
          if (args.length != 2) {
             System.out.println("Usage: java ScheduleClass <constraint file> <pref file>");
             System.exit(1);
@@ -76,5 +77,5 @@ public class ScheduleClass {
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());
         }
-    }
+    }*/
 }
