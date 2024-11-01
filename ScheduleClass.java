@@ -93,7 +93,7 @@ public class ScheduleClass {
 
                 //If not conflicted, we assign the class 
                 if (!conflict) {
-                    classBeingAssigned.setRoomId(i+1);  // Update roomId in class object
+                    classBeingAssigned.setRoomId(emptyRooms[i]+1);  // Update roomId in class object
                     classBeingAssigned.setTime(emptyTime[i]);     // Update timeslot in class object
                     schedule[emptyRooms[i]][emptyTime[i]] = classBeingAssigned;
                     scheduled = true;
@@ -102,7 +102,7 @@ public class ScheduleClass {
                 }
             }
         }
-        
+
         printSchedule(schedule);
         return schedule;
     }

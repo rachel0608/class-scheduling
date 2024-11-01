@@ -39,7 +39,7 @@ public class StudentAssignment {
                 //System.out.println("Room Capacities:");
                 //for (roomId = 1; roomId <= numRooms; roomId++) {
                 //    System.out.println("Room " + roomId + ": " + roomCapacities[roomId]);
-                //}       
+                //}     
 
                 // Check if room has capacity and student is free at that timeslot
                 if (roomCapacities[roomId] > 0 && !studentSchedule[studentId][timeslot]) {
