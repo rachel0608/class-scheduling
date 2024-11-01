@@ -1,7 +1,8 @@
-import java.io.FileNotFoundException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ScheduleClass {
-
+    private static Set<Integer> scheduledClassIds = new HashSet<>();
     public static Class[][] scheduleClasses(ScheduleInput input) {
         int numRooms = input.getRooms().length - 1;
         int numTimeSlots = input.getNumTimeslots();
@@ -28,9 +29,10 @@ public class ScheduleClass {
                 }
 
                 if (!conflict && schedule[i][j] == null) {
-                    mostPopularClass.setRoomId(i);  // Update roomId in class object
+                    mostPopularClass.setRoomId(i+1);  // Update roomId in class object
                     mostPopularClass.setTime(j);     // Update timeslot in class object
                     schedule[i][j] = mostPopularClass;
+                    scheduledClassIds.add(mostPopularClass.getClassId()); // Track scheduled classes
                 }
             }
         }
@@ -44,11 +46,13 @@ public class ScheduleClass {
     private static boolean checkTeacherConstraint(Class class1, Class class2) {
         return class1.isSameTeacher(class2);
     }
-
+    public static boolean isClassScheduled(int classId) {
+        return scheduledClassIds.contains(classId);
+    }
     // Print the schedule for debugging or verification
     private static void printSchedule(Class[][] schedule) {
         for (int i = 0; i < schedule.length; i++) {
-            System.out.println("Room " + i + ": ");
+            System.out.println("Room " + (i+1) + ": ");
             for (int j = 0; j < schedule[i].length; j++) {
                 System.out.print("  Timeslot " + j + ": ");
                 if (schedule[i][j] != null) {

@@ -6,10 +6,10 @@
  * access elements by ID yet, if we do, we can modify by creating a copy of the array and sorting that
  */
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.io.File;
 
 public class ProcessInput {
     public static final int KEY_POSITION = 0; // Position of the key (i.e. class time) in the input file
@@ -96,7 +96,6 @@ public class ProcessInput {
 
         // Sort classes by frequency
         Arrays.sort(input.getClasses(), 1, input.getClasses().length, (a, b) -> b.getFrequency() - a.getFrequency());
-
         scanner.close();
     }
 
