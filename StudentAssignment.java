@@ -1,6 +1,6 @@
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 public class StudentAssignment {
 
@@ -37,25 +37,46 @@ public class StudentAssignment {
         }
 
         // Output the assignments for verification
-        printStudentAssignments(studentAssignments, students);
+        printStudentAssignments(input, studentAssignments);
     }
 
-    private static void printStudentAssignments(int[][] studentAssignments, Student[] students) {
-        try (PrintWriter writer = new PrintWriter("studentAssignments.txt", "UTF-8")) {
-            for (int studentId = 1; studentId < studentAssignments.length; studentId++) {
-                writer.print("Student " + studentId + " assigned to classes: ");
-                for (int classId = 1; classId < studentAssignments[studentId].length; classId++) {
-                    if (studentAssignments[studentId][classId] == 1) {
-                        writer.print(classId + " ");
+    private static void printStudentAssignments(ScheduleInput input, int[][] studentAssignments) {
+        try (PrintWriter writer = new PrintWriter("studentAssignment.txt", "UTF-8")) {
+            writer.println("Course\tRoom\tTeacher\tTime\tStudents");
+    
+            Class[] classes = input.getClasses();
+            Student[] students = input.getStudents();
+    
+            // Iterate over each class, starting from 1 if classes are 1-indexed
+            for (int classIndex = 1; classIndex < classes.length; classIndex++) {
+                if (classes[classIndex] != null) { // Check if class is not null
+                    Class cls = classes[classIndex];
+    
+                    StringBuilder line = new StringBuilder();
+                    line.append(cls.getClassId()).append("\t")
+                        .append(cls.getRoomId()).append("\t")
+                        .append(cls.getTeacherId()).append("\t")
+                        .append(cls.getTimeslot()).append("\t");
+    
+                    StringBuilder studentsList = new StringBuilder();
+                    for (int studentId = 1; studentId < studentAssignments.length; studentId++) {
+                        if (studentAssignments[studentId][classIndex] == 1) {
+                            if (studentsList.length() > 0) studentsList.append(" ");
+                            studentsList.append(students[studentId].getStudentId());
+                        }
+                    }
+                    
+                    if (studentsList.length() > 0) { 
+                        line.append(studentsList.toString());
+                        writer.println(line.toString());
                     }
                 }
-                writer.println(); // Move to the next line after printing all classes for a student
             }
         } catch (IOException e) {
             System.err.println("An error occurred while writing to the file: " + e.getMessage());
         }
     }
-
+    
     public static void main(String[] args) {
         if (args.length != 2) {
             System.out.println("Usage: java StudentAssignment <constraint file> <pref file>");
@@ -68,10 +89,8 @@ public class StudentAssignment {
             // Assuming ProcessInput class has static methods to parse files
             ProcessInput.parseConstraintFile(input, args[0]);
             ProcessInput.parseStudentPrefFile(input, args[1]);
-
-            // Assuming ScheduleClass has a static method scheduleClasses
+        
             Class[][] scheduledClasses = ScheduleClass.scheduleClasses(input);
-            
             // Directly assign students to classes
             assignStudentsToClasses(input);
             
