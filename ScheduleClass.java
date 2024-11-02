@@ -32,8 +32,7 @@ public class ScheduleClass {
                 } else {
                     mostPopularClass = classes[current++];
                 }
-                scheduled = false;
-                
+                scheduled = false;                
 
                 // Check teacher constraint with classes in the same timeslot across other rooms
                 for (int k = 0; k < numRooms; k++) {
@@ -71,11 +70,14 @@ public class ScheduleClass {
         Stack<Class> unassignedClass = new Stack<>();
         for (int i = current; i < classes.length; i++) {
             unassignedClass.add(classes[i]);
+            System.out.println("iD: " + classes[i].getClassId());
         }
 
         //Loop until all the class is scheduled 
         while (!unassignedClass.isEmpty()) {
             Class classBeingAssigned = unassignedClass.pop();
+            System.out.println("ASSIGNED: " + classBeingAssigned.getClassId());
+
             
             for (int i = 0; i < emptyRooms.length; i++) {
                 boolean conflict = false;
@@ -91,8 +93,10 @@ public class ScheduleClass {
 
                 }
 
+                System.out.println("ASSIGNED: " + classBeingAssigned.getClassId() + " conflict: " + conflict + " room: " + emptyRooms[i] + " timeslot: " + emptyTime[i]);
+
                 //If not conflicted, we assign the class 
-                if (!conflict) {
+                if (!conflict && schedule[emptyRooms[i]][emptyTime[i]] == null) {
                     classBeingAssigned.setRoomId(emptyRooms[i]+1);  // Update roomId in class object
                     classBeingAssigned.setTime(emptyTime[i]);     // Update timeslot in class object
                     schedule[emptyRooms[i]][emptyTime[i]] = classBeingAssigned;
@@ -128,6 +132,7 @@ public class ScheduleClass {
             }
         }
     }
+
 
     /*public static void main(String[] args) {
         if (args.length != 2) {
