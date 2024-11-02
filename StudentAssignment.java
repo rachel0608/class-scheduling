@@ -46,7 +46,7 @@ public class StudentAssignment {
                     studentSchedule[studentId][timeslot] = true; // Mark this timeslot as occupied for the student
                     roomCapacities[roomId]--; // Decrease room capacity
                     assigned = true;
-                    break;// Move to the next student once successfully assigned
+                    //break;// Move to the next student once successfully assigned
                 }
                 System.out.println("Trying to assign Student " + studentId + " to Class " + preferredClassId
                         + " at Timeslot " + timeslot + " in Room " + roomId);
