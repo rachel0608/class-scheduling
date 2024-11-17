@@ -1,6 +1,8 @@
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class ScheduleClass {
     private static Set<Integer> scheduledClassIds = new HashSet<>();
@@ -67,7 +69,7 @@ public class ScheduleClass {
         }
 
         //Storing all unassigned classes into a stack
-        Stack<Class> unassignedClass = new Stack<>();
+        Queue<Class> unassignedClass = new PriorityQueue<>();
         for (int i = current; i < classes.length; i++) {
             unassignedClass.add(classes[i]);
             // System.out.println("iD: " + classes[i].getClassId());
@@ -75,7 +77,7 @@ public class ScheduleClass {
 
         //Loop until all the class is scheduled 
         while (!unassignedClass.isEmpty()) {
-            Class classBeingAssigned = unassignedClass.pop();
+            Class classBeingAssigned = unassignedClass.remove();
             // System.out.println("ASSIGNED: " + classBeingAssigned.getClassId());
 
             
