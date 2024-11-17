@@ -45,10 +45,6 @@ public class ProcessInput {
         int numClasses = Integer.parseInt(line.split("\t")[VALUE_POSITION]);
         line = scanner.nextLine();
         int numTeachers = Integer.parseInt(line.split("\t")[VALUE_POSITION]);
-        if (numTeachers != numClasses/2) {
-            System.out.println("Number of teachers must be half the number of classes");
-            System.exit(1);
-        }
         
         // Parse class-teacher assignments
         input.setClasses(new Class[numClasses+1]); // Class IDs are 1-indexed in input
@@ -80,11 +76,6 @@ public class ProcessInput {
             int studentId = Integer.parseInt(studentData[KEY_POSITION]);
             String[] prefData = studentData[VALUE_POSITION].split(" ");
             int[] preferences = new int[prefData.length];
-            if (prefData.length != NUM_PREFS) {
-                System.out.println("Each student must have 4 preferences");
-                System.out.println(prefData.length);
-                System.exit(1);
-            }
 
             for (int j = 0; j < prefData.length; j++) {
                 preferences[j] = Integer.parseInt(prefData[j]);
