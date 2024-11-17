@@ -1,0 +1,16 @@
+#1 Commands for processing inputs
+
+// extract data from the csv file
+python3 get_bmc_info.py <enrollment.csv> <student_prefs.txt> <constraints.txt>
+// convert the extracted data into a format that is similar to the randomly generated data
+python3 mask_data.py <processed_constraints> <processed_prefs> <new_constraints> <new_prefs>
+
+
+#2 Commands for Class scheduling
+
+// compile all the java files
+javac *.java
+// create a class schedule, it will be written into the file "studentAssignment.txt" 
+java StudentAssignment <constraint file> <pref file>
+// check class validity
+perl is_valid.pl <constraints file> <prefs file> <schedule file>
