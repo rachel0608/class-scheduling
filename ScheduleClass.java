@@ -70,13 +70,13 @@ public class ScheduleClass {
         Stack<Class> unassignedClass = new Stack<>();
         for (int i = current; i < classes.length; i++) {
             unassignedClass.add(classes[i]);
-            System.out.println("iD: " + classes[i].getClassId());
+            // System.out.println("iD: " + classes[i].getClassId());
         }
 
         //Loop until all the class is scheduled 
         while (!unassignedClass.isEmpty()) {
             Class classBeingAssigned = unassignedClass.pop();
-            System.out.println("ASSIGNED: " + classBeingAssigned.getClassId());
+            // System.out.println("ASSIGNED: " + classBeingAssigned.getClassId());
 
             
             for (int i = 0; i < emptyRooms.length; i++) {
@@ -93,7 +93,7 @@ public class ScheduleClass {
 
                 }
 
-                System.out.println("ASSIGNED: " + classBeingAssigned.getClassId() + " conflict: " + conflict + " room: " + emptyRooms[i] + " timeslot: " + emptyTime[i]);
+                // System.out.println("ASSIGNED: " + classBeingAssigned.getClassId() + " conflict: " + conflict + " room: " + emptyRooms[i] + " timeslot: " + emptyTime[i]);
 
                 //If not conflicted, we assign the class 
                 if (!conflict && schedule[emptyRooms[i]][emptyTime[i]] == null) {
@@ -107,7 +107,8 @@ public class ScheduleClass {
             }
         }
 
-        printSchedule(schedule);
+        // printSchedule(schedule);
+        System.out.println("Successfully scheduled all classes into rooms and timeslots.");
         return schedule;
     }
 

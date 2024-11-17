@@ -36,9 +36,9 @@ public class StudentAssignment {
                 int roomId = cls.getRoomId();
                 int timeslot = cls.getTimeslot();
 
-                System.out.println("Student " + studentId + " pref " + preferredClassId + " Room " + roomId
-                        + " Timeslot " + timeslot + " RoomCap " + roomCapacities[roomId] + " Free: "
-                        + !studentSchedule[studentId][timeslot]);
+                // System.out.println("Student " + studentId + " pref " + preferredClassId + " Room " + roomId
+                //         + " Timeslot " + timeslot + " RoomCap " + roomCapacities[roomId] + " Free: "
+                //         + !studentSchedule[studentId][timeslot]);
 
                 // Check if room has capacity and student is free at that timeslot
                 if (roomCapacities[roomId] > 0 && !studentSchedule[studentId][timeslot]) {
@@ -48,22 +48,22 @@ public class StudentAssignment {
                     assigned = true;
                     //break;// Move to the next student once successfully assigned
                 }
-                System.out.println("Trying to assign Student " + studentId + " to Class " + preferredClassId
-                        + " at Timeslot " + timeslot + " in Room " + roomId);
+                // System.out.println("Trying to assign Student " + studentId + " to Class " + preferredClassId
+                //         + " at Timeslot " + timeslot + " in Room " + roomId);
             }
 
         }
 
         // Output the assignments for verification
-        printStudentAssignments(input, studentAssignments);
-        System.out.println("Student schedule:");
-        for (int i = 0; i < studentSchedule.length; i++) {
-            System.out.println("Student " + i + ": " + Arrays.toString(studentSchedule[i]));
-        }
-        System.out.println("Student Assignments:");
-        for (int i = 1; i < studentAssignments.length; i++) {
-            System.out.println("Student " + i + ": " + Arrays.toString(studentAssignments[i]));
-        }
+        // printStudentAssignments(input, studentAssignments);
+        // System.out.println("Student schedule:");
+        // for (int i = 0; i < studentSchedule.length; i++) {
+        //     System.out.println("Student " + i + ": " + Arrays.toString(studentSchedule[i]));
+        // }
+        // System.out.println("Student Assignments:");
+        // for (int i = 1; i < studentAssignments.length; i++) {
+        //     System.out.println("Student " + i + ": " + Arrays.toString(studentAssignments[i]));
+        // }
     }
 
     private static void printStudentAssignments(ScheduleInput input, int[][] studentAssignments) {
@@ -116,6 +116,9 @@ public class StudentAssignment {
             Class[][] scheduledClasses = ScheduleClass.scheduleClasses(input);
             // Directly assign students to classes
             assignStudentsToClasses(input);
+            System.out.println("Successfully assigned students to classes.");
+            System.out.println("Schedule with enrolled students written to studentAssignment.txt");
+            System.out.println("Run is_valid.py to see the fit number.");
 
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());
