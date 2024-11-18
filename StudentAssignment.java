@@ -1,7 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 public class StudentAssignment {
 
@@ -9,6 +8,7 @@ public class StudentAssignment {
         int numStudents = input.getNumStudents();
         Student[] students = input.getStudents();
         Class[] classes = new Class[input.getClasses().length + 1];
+        int count = 0;
 
         for (int i = 1; i < input.getClasses().length; i++) {
             classes[input.getClasses()[i].getClassId()] = input.getClasses()[i];
@@ -19,51 +19,69 @@ public class StudentAssignment {
         // Initialize room capacities
         int numRooms = input.getRooms().length - 1; // rooms are 1-indexed
         int[] roomCapacities = new int[numRooms + 1];
-        for (int i = 1; i <= numRooms; i++) {
-            roomCapacities[i] = input.getRooms()[i].getSize();
+        for (int i = 1; i < input.getRooms().length; i++) {
+            Room currentRoom = input.getRooms()[i];
+            int roomId = currentRoom.getRoomId();
+            roomCapacities[roomId] = currentRoom.getSize();
         }
+
+        System.out.println("room id: " + 1 + " capacity " +  roomCapacities[1] );
+        System.out.println("room id: " + 2 + " capacity " +  roomCapacities[2] );
+        System.out.println("room id: " + 3 + " capacity " +  roomCapacities[3] );
+        System.out.println("room id: " + 4 + " capacity " +  roomCapacities[4] );
+
 
         // Assign students to classes based on their preferences
         for (int studentId = 1; studentId <= numStudents; studentId++) {
             Student student = students[studentId];
             boolean assigned = false;
+
             for (int preferenceIndex = 0; preferenceIndex < student.getPreferences().length; preferenceIndex++) {
                 int preferredClassId = student.getPreferences()[preferenceIndex];
                 Class cls = classes[preferredClassId];
+
+                // if a course has not been assigned in the schedule, skip that course
                 if (!ScheduleClass.isClassScheduled(preferredClassId))
-                    continue; // if a course has not been assigned in the schedule, skip that course
+                    continue; 
 
                 int roomId = cls.getRoomId();
+                // System.out.println("room id: " + roomId + " capacity " +  roomCapacities[roomId] );
                 int timeslot = cls.getTimeslot();
 
-                System.out.println("Student " + studentId + " pref " + preferredClassId + " Room " + roomId
-                        + " Timeslot " + timeslot + " RoomCap " + roomCapacities[roomId] + " Free: "
-                        + !studentSchedule[studentId][timeslot]);
+                // if (studentId < 800) {
+                //     System.out.println("Student " + studentId + " pref " + preferredClassId + " Room " + roomId
+                //     + " Timeslot " + timeslot + " RoomCap " + roomCapacities[roomId] + " Free: "
+                //     + !studentSchedule[studentId][timeslot]);
 
+                // }
+                // System.out.println(" RoomCap of " + roomId + " is " + roomCapacities[roomId]);
                 // Check if room has capacity and student is free at that timeslot
                 if (roomCapacities[roomId] > 0 && !studentSchedule[studentId][timeslot]) {
+                    count++;
                     studentAssignments[studentId][preferredClassId] = 1; // Mark the class as assigned to the student
                     studentSchedule[studentId][timeslot] = true; // Mark this timeslot as occupied for the student
+                    // System.out.println("Decrementing room capacity for Room " + roomId + 
+                //    ". Current capacity: " + roomCapacities[roomId] + " this is count: " + count);
+
                     roomCapacities[roomId]--; // Decrease room capacity
                     assigned = true;
-                    //break;// Move to the next student once successfully assigned
                 }
-                System.out.println("Trying to assign Student " + studentId + " to Class " + preferredClassId
-                        + " at Timeslot " + timeslot + " in Room " + roomId);
+                // System.out.println("Trying to assign Student " + studentId + " to Class " + preferredClassId
+                        // + " at Timeslot " + timeslot + " in Room " + roomId);
             }
 
         }
 
         // Output the assignments for verification
         printStudentAssignments(input, studentAssignments);
-        System.out.println("Student schedule:");
-        for (int i = 0; i < studentSchedule.length; i++) {
-            System.out.println("Student " + i + ": " + Arrays.toString(studentSchedule[i]));
-        }
-        System.out.println("Student Assignments:");
-        for (int i = 1; i < studentAssignments.length; i++) {
-            System.out.println("Student " + i + ": " + Arrays.toString(studentAssignments[i]));
-        }
+        // System.out.println("Student schedule:");
+        // for (int i = 0; i < studentSchedule.length; i++) {
+        //     System.out.println("Student " + i + ": " + Arrays.toString(studentSchedule[i]));
+        // }
+        // System.out.println("Student Assignments:");
+        // for (int i = 1; i < studentAssignments.length; i++) {
+        //     System.out.println("Student " + i + ": " + Arrays.toString(studentAssignments[i]));
+        // }
     }
 
     private static void printStudentAssignments(ScheduleInput input, int[][] studentAssignments) {
