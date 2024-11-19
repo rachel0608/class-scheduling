@@ -60,6 +60,10 @@ public class StudentAssignment {
                 int roomId = cls.getRoomId();
                 int timeslot = cls.getTimeslot();
 
+                // System.out.println("Student " + studentId + " pref " + preferredClassId + " Room " + roomId
+                //         + " Timeslot " + timeslot + " RoomCap " + roomCapacities[roomId] + " Free: "
+                //         + !studentSchedule[studentId][timeslot]);
+
                 // Check if room has capacity and student is free at that timeslot
                 if (roomTimeslotCapacities[roomId][timeslot] > 0 && !studentSchedule[studentId][timeslot]) {
                     count++;
@@ -134,6 +138,9 @@ public class StudentAssignment {
             Class[][] scheduledClasses = ScheduleClass.scheduleClasses(input);
             // Directly assign students to classes
             assignStudentsToClasses(input);
+            System.out.println("Successfully assigned students to classes.");
+            System.out.println("Schedule with enrolled students written to studentAssignment.txt");
+            System.out.println("Run is_valid.py to see the fit number.");
 
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());

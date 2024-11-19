@@ -4,6 +4,8 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class ScheduleClass {
     private static Set<Integer> scheduledClassIds = new HashSet<>();
