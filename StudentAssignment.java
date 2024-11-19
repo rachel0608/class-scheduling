@@ -1,14 +1,17 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 public class StudentAssignment {
 
     public static void assignStudentsToClasses(ScheduleInput input) {
         int numStudents = input.getNumStudents();
+        int numTimeSlots = input.getNumTimeslots();
         Student[] students = input.getStudents();
         Class[] classes = new Class[input.getClasses().length + 1];
+        Class[][] schedule = ScheduleClass.scheduleClasses(input);
+        int total = 0;
+        int count = 0;
 
         for (int i = 1; i < input.getClasses().length; i++) {
             classes[input.getClasses()[i].getClassId()] = input.getClasses()[i];
@@ -19,19 +22,40 @@ public class StudentAssignment {
         // Initialize room capacities
         int numRooms = input.getRooms().length - 1; // rooms are 1-indexed
         int[] roomCapacities = new int[numRooms + 1];
-        for (int i = 1; i <= numRooms; i++) {
-            roomCapacities[i] = input.getRooms()[i].getSize();
+        int[][] roomTimeslotCapacities = new int[numRooms + 1][numTimeSlots + 1];
+
+        // for (int i = 1; i < input.getRooms().length; i++) {
+        //     Room currentRoom = input.getRooms()[i];
+        //     int roomId = currentRoom.getRoomId();
+        //     roomCapacities[roomId] = currentRoom.getSize();
+        //     // System.out.println("room id: " + roomId + " capacity " +  roomCapacities[roomId] );
+        // }
+
+        //adding each room size (for each timeslot) into a 2D array
+        for (int i = 1; i < schedule.length; i++) {
+            Room currentRoom = input.getRooms()[i];
+            // System.out.println(currentRoom.getRoomId());
+            int roomId = currentRoom.getRoomId();
+            for (int j = 0; j < schedule[i].length; j++) {
+                roomTimeslotCapacities[roomId][j] = currentRoom.getSize();
+            }
         }
 
+        
+        
         // Assign students to classes based on their preferences
         for (int studentId = 1; studentId <= numStudents; studentId++) {
             Student student = students[studentId];
             boolean assigned = false;
+
             for (int preferenceIndex = 0; preferenceIndex < student.getPreferences().length; preferenceIndex++) {
+                total += 1;
                 int preferredClassId = student.getPreferences()[preferenceIndex];
                 Class cls = classes[preferredClassId];
+
+                // if a course has not been assigned in the schedule, skip that course
                 if (!ScheduleClass.isClassScheduled(preferredClassId))
-                    continue; // if a course has not been assigned in the schedule, skip that course
+                    continue; 
 
                 int roomId = cls.getRoomId();
                 int timeslot = cls.getTimeslot();
@@ -41,21 +65,19 @@ public class StudentAssignment {
                 //         + !studentSchedule[studentId][timeslot]);
 
                 // Check if room has capacity and student is free at that timeslot
-                if (roomCapacities[roomId] > 0 && !studentSchedule[studentId][timeslot]) {
+                if (roomTimeslotCapacities[roomId][timeslot] > 0 && !studentSchedule[studentId][timeslot]) {
+                    count++;
                     studentAssignments[studentId][preferredClassId] = 1; // Mark the class as assigned to the student
                     studentSchedule[studentId][timeslot] = true; // Mark this timeslot as occupied for the student
-                    roomCapacities[roomId]--; // Decrease room capacity
+                    roomTimeslotCapacities[roomId][timeslot]--; // Decrease room capacity
                     assigned = true;
-                    //break;// Move to the next student once successfully assigned
                 }
-                // System.out.println("Trying to assign Student " + studentId + " to Class " + preferredClassId
-                //         + " at Timeslot " + timeslot + " in Room " + roomId);
             }
 
         }
-
+        System.out.println("Assigned " + count + " students out of " + total + ", which is " + (((double)count/total) * 100)+ " percent");
         // Output the assignments for verification
-        // printStudentAssignments(input, studentAssignments);
+        printStudentAssignments(input, studentAssignments);
         // System.out.println("Student schedule:");
         // for (int i = 0; i < studentSchedule.length; i++) {
         //     System.out.println("Student " + i + ": " + Arrays.toString(studentSchedule[i]));
