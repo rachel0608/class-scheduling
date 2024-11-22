@@ -17,3 +17,4 @@ for ((i = 0 ; i < $1 ; i++)); do
   echo "Generating instance $i"
   perl make_random_input.pl $2 $3 $4 $5 "k$1r$2c$3t$4s$5/constraints_$i" "k$1r$2c$3t$4s$5/prefs_$i" 
 done
+
