@@ -1,3 +1,4 @@
+sed -i '' 's/\r//' generateRandomInstances.sh  
 #!/bin/bash
 
 set -o errexit
