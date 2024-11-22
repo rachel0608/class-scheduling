@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 
 public class StudentAssignment {
 
-    public static void assignStudentsToClasses(ScheduleInput input) {
+    public static void assignStudentsToClasses(ScheduleInput input, String outputFile) {
         int numStudents = input.getNumStudents();
         int numTimeSlots = input.getNumTimeslots();
         Student[] students = input.getStudents();
@@ -64,12 +64,12 @@ public class StudentAssignment {
         System.out.println("Assigned " + count + " students out of " + total + ", which is " + (((double)count/total) * 100)+ " percent");
 
         // Output the assignments for verification
-        printStudentAssignments(input, studentAssignments);
+        printStudentAssignments(input, studentAssignments, outputFile);
     }
 
     // Write to file function
-    private static void printStudentAssignments(ScheduleInput input, int[][] studentAssignments) {
-        try (PrintWriter writer = new PrintWriter("studentAssignment.txt", "UTF-8")) {
+    private static void printStudentAssignments(ScheduleInput input, int[][] studentAssignments, String outputFile) {
+        try (PrintWriter writer = new PrintWriter(outputFile, "UTF-8")) {
             writer.println("Course\tRoom\tTeacher\tTime\tStudents");
 
             Class[] classes = input.getClasses();
@@ -103,8 +103,8 @@ public class StudentAssignment {
     }
 
     public static void main(String[] args) {
-        if (args.length != 2) {
-            System.out.println("Usage: java StudentAssignment <constraint file> <pref file>");
+        if (args.length != 3) { 
+            System.out.println("Usage: java StudentAssignment <constraint file> <pref file> <output file>");
             System.exit(1);
         }
 
@@ -118,7 +118,7 @@ public class StudentAssignment {
             Class[][] scheduledClasses = ScheduleClass.scheduleClasses(input);
 
             // Directly assign students to classes
-            assignStudentsToClasses(input);
+            assignStudentsToClasses(input, args[2]);
 
         } catch (FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());
